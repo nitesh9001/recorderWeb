@@ -1,0 +1,6 @@
+/src
+/envs
+/node_modules
+.babelrc
+.npmrc
+webpack.config.js
