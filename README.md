@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Getting Started with RecorderWeb package
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This package is made for purpose to record screen in web (With Cam, mic and download feature).
 
 ## Available Scripts
 
