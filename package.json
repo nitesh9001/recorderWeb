@@ -6,6 +6,7 @@
   "engines": {
     "node": ">=10"
   },
+  "author": "Nitesh singh",
   "keywords": [
     "recorderweb",
     "sharescreen",
@@ -52,6 +53,14 @@
     "clean": "rm -rf node_modules dist",
     "eject": "react-scripts eject"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nitesh9001/recorderWeb.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nitesh9001/recorderWeb/issues"
+  },
+  "homepage": "https://github.com/nitesh9001/recorderWeb/blob/main/README.md",
   "resolutions": {
     "**/react": "16.14.0",
     "**/react-dom": "16.14.0"
