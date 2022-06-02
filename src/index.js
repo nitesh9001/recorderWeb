@@ -20,9 +20,8 @@ export default class {
     if(typeof this.component === "string" && this.component === "RecoderWeb"){
       ReactDOM.render(
         <Suspense fallback={<Spinner />}>
-          <App 
+          <App
             component={this.component}
-            configuration={this.configuration}
             options={this.options}
           />
         </Suspense>,
