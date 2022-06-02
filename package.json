@@ -1,11 +1,22 @@
 {
   "name": "recorderweb",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "main": "dist/index.js",
   "engines": {
     "node": ">=10"
   },
+  "keywords": [
+    "recorderweb",
+    "sharescreen",
+    "recordscreen",
+    "screenrecorder",
+    "camera",
+    "mic",
+    "screen",
+    "react-recorder",
+    "web recorder"
+  ],
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
