@@ -9,11 +9,18 @@ import PlayOn from "./Assets/play_on.svg";
 import PlayOff from "./Assets/play_off.svg";
 import Download from "./Assets/download.svg";
 import Alarm from "./Assets/alarm.svg";
+import { checkForType } from './Utils/Generic';
 
-const App = ()  => {
-  const [ videoCam, setVideoCam ]= useState(false);
+const App = ({ options, component})  => {
+  const [ videoCamAccess, setVideoCamAccess ]= useState(false);
+  const [ counterTimer, setCountertimer ] = useState(false);
+  const [ isMicOnAccess, setIsMicOnAccess ]= useState(false);
+  const [ isDownloadAvailAccess, setisDownloadAvailAccess ] = useState(false);
+  const [ isDownloadAtuo, setisDownloadAuto ] = useState(false);
+  const [ formateType, setFormatType ] = useState("mp4");
   const [ isMicOn, setIsMicOn ]= useState(false);
-  const [ name, setName ]= useState("Nitesh");
+  const [ videoCam, setVideoCam ]= useState(false);
+  const [ name, setName ]= useState("S");
   const [ isDownloadAvail, setisDownloadAvail ] = useState(false);
   const [ counterString, setCounterString ] = useState("00:00:00");
   const [ isRecordingStarted, setIsRecordingStarted ] = useState(false);
@@ -24,12 +31,26 @@ const App = ()  => {
   const [ finalBlobVideo, setFinalBlobVideo] = useState(null);
   const [ finalBlobType, setFinalBlobType] = useState(null);
   const [ isMobile, setIsMobile] = useState(false);
-  const [ refe, setRefe ] = useState(null)
+  const [ refe, setRefe ] = useState(null);
+  const [ validate, setValidate ] = useState(false);
   var intervalRef = null;
   var counter=0;
   var streamsMixed= null;
   var recordedChunks=[];
   var mediaRecorder=null;
+
+  useEffect(() => {
+    if(options && 
+    checkForType(options, setValidate, setFlatError)){
+      setName(options?.avatar);
+      setVideoCamAccess(options?.camera);
+      setIsMicOnAccess(options?.mic);
+      setisDownloadAvailAccess(options?.download);
+      setCountertimer(options?.timer);
+      setisDownloadAuto(options?.autoDowload);
+      setFormatType(options?.videoFormat)
+    }
+  },[]);
   const userCameraStream = async (access) => {
     if(isRecordingStarted && videoCam){
       var player = document.getElementById('player-user');
@@ -139,6 +160,9 @@ const App = ()  => {
        setIsMicOn(false);
        setVideoCam(false);
        setIsRecordingStarted(false);
+       if(isDownloadAtuo){
+        downLoadVideo();
+       }
       //  mediaRecorder?.stop();
      };
      mediaRecorder.onpause = handleClose;
@@ -158,7 +182,6 @@ const App = ()  => {
   }
   const downLoadVideo = (e) => {
     e?.preventDefault();
-    setCounterString("00:00:00");
     const blob = new Blob(finalBlobVideo, {type: 'video/mp4'});
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -172,6 +195,7 @@ const App = ()  => {
       window.URL.revokeObjectURL(url);
     }, 100);
     setisDownloadAvail(false);
+    setCounterString("00:00:00");
   }
 
   const handleCloseRecord = () =>  {
@@ -183,97 +207,104 @@ const App = ()  => {
       setIsMicOn(false);
       setVideoCam(false);
       setIsRecordingStarted(false);
+      if(isDownloadAtuo){
+        downLoadVideo();
+      }
     }catch {
-      console.log("err");
+      console.log("something went wrong");
       clearInterval(intervalRef.current);
       setFlatError(toString());
     }
   };
   return (
     <div className="Aspp">
-      {/* <video id="player" controls autoPlay style={{width: "800px", height:"400px", borderRadius:"5px",marginTop:"20px"  }}></video> */}
       <div className='IXN-screen-recorder-main'>
         { !flatError.length > 0 ? 
-         <div className= "IXN-screen-recorder-inner-wrapper">
-          {isRecordingStarted && 
-           <div className='IXN-screen-recorder-inner-wrapper-animation'>
-            <div className="IXN-startAnimation">
+          <div className= "IXN-screen-recorder-inner-wrapper">
+            {isRecordingStarted && 
+            <div className='IXN-screen-recorder-inner-wrapper-animation'>
+              <div className="IXN-startAnimation">
+              </div>
             </div>
-           </div>
-          }
-        <div className='IXN-screen-recorder-inner-video-cam-user'>
-          {videoCam ?
-              <video id="player-user" autoPlay muted onClick={() => {
-                setVideoCam(!videoCam);
-                mediaCamera?.getTracks().forEach((track) => track.stop());
-              }}
-                className='IXN-screen-recorder-inner-video-cam-user-video'
-                style={{width: "100px", height:"100px", borderRadius:"50px" }}>
-            </video> : 
-            <span className='IXN-screen-recorder-inner-video-cam-user-avatar'>{name[0]}</span>
-          }
-        </div>
-        <div  className='IXN-screen-recorder-inner-button-cam-start'>
-          {isRecordingStarted ? 
-             <img src={PlayOn} alt="X" className='IXN-screen-recorder-inner-button-cam-on' 
-                onClick={() => {
-                  setIsRecordingStarted(!isRecordingStarted);
-                  handleCloseRecord();
-                }}/>
-             : 
-             <img src={PlayOff} alt="X" className='IXN-screen-recorder-inner-button-cam-off' onClick={(e) => {
-               openStream(e);
-              }}/>
-          }
-        </div>
-        <div  className='IXN-screen-recorder-inner-button-cam-start'>
-          {videoCam ? 
-               <img src={CameraOn} alt="X" className='IXN-screen-recorder-inner-button-cam-on' onClick={() => {
-                setVideoCam(!videoCam);
-                mediaCamera?.getTracks().forEach((track) => track.stop());
-              }}/>
-             : 
-             <img src={CameraOff} alt="X" className='IXN-screen-recorder-inner-button-cam-off' onClick={() => {
-              setVideoCam(true)
-              userCameraStream(true);
-             }}/>
-          }
-        </div>
-        <div  className='IXN-screen-recorder-inner-button-cam-start'>
-          {isMicOn ? 
-             <img src={MicOn} alt="X" className='IXN-screen-recorder-inner-button-cam-on' onClick={() => {
-              streamAudio?.getTracks().forEach((track) => track.stop()); 
-              setIsMicOn(!isMicOn)
-              }}/>
-             : 
-             <img src={MicOff} alt="X" className='IXN-screen-recorder-inner-button-cam-off' onClick={() => {
-                if(!isRecordingStarted){
-                  setIsMicOn(!isMicOn)
-                }else{
-                  setFlatError("Can't unmute in mid")
+            }
+          <div className='IXN-screen-recorder-inner-video-cam-user'>
+            {videoCam && videoCamAccess ?
+                <video id="player-user" autoPlay muted onClick={() => {
+                  setVideoCam(!videoCam);
+                  mediaCamera?.getTracks().forEach((track) => track.stop());
                 }}
-              }/>
-          }
-        </div>
-        <div  className='IXN-screen-recorder-inner-button-cam-start'>
-          {isDownloadAvail ? 
-             <a id="download_video" onClick={downLoadVideo} >
-              <img src={Download} alt="X" className='IXN-screen-recorder-inner-button-cam-on' 
-               />
-              </a>
-             :
-             <img src={Download} alt="X" className='IXN-screen-recorder-inner-button-cam-off' />
-          }
-        </div>
-        <div  className='IXN-screen-recorder-inner-button-cam-start'>
-            <img src={Alarm} alt="X" className='IXN-screen-recorder-inner-button-cam-off' />
-            <span style={{color:"#1b9bff", fontSize:"10px"}}>{counterString}</span>
-        </div>
-      </div> : 
-      <div className= "IXN-screen-recorder-inner-wrapper error-flat-close">
-        <span>{flatError}</span>
-        {!isMobile && <img src={CloseIcon} style={{width:"10px"}} onClick={() => setFlatError("")} alt=""/>}
-      </div>}
+                  className='IXN-screen-recorder-inner-video-cam-user-video'
+                  style={{width: "100px", height:"100px", borderRadius:"50px" }}>
+              </video> : 
+              name && <span className='IXN-screen-recorder-inner-video-cam-user-avatar'>{name[0]}</span>
+            }
+          </div>
+          <div  className='IXN-screen-recorder-inner-button-cam-start'>
+            {isRecordingStarted ? 
+              <img src={PlayOn} alt="X" className='IXN-screen-recorder-inner-button-cam-on' 
+                  onClick={() => {
+                    setIsRecordingStarted(!isRecordingStarted);
+                    handleCloseRecord();
+                  }}/>
+              : 
+              <img src={PlayOff} alt="X" className='IXN-screen-recorder-inner-button-cam-off' onClick={(e) => {
+                openStream(e);
+                }}/>
+            }
+          </div>
+          {videoCamAccess && <div  className='IXN-screen-recorder-inner-button-cam-start'>
+            {videoCam ? 
+                <img src={CameraOn} alt="X" className='IXN-screen-recorder-inner-button-cam-on' onClick={() => {
+                  setVideoCam(!videoCam);
+                  mediaCamera?.getTracks().forEach((track) => track.stop());
+                }}/>
+              : 
+              <img src={CameraOff} alt="X" className='IXN-screen-recorder-inner-button-cam-off' onClick={() => {
+                setVideoCam(true)
+                userCameraStream(true);
+              }}/>
+            }
+          </div>
+        }
+        {isMicOnAccess && <div  className='IXN-screen-recorder-inner-button-cam-start'>
+            {isMicOn ? 
+              <img src={MicOn} alt="X" className='IXN-screen-recorder-inner-button-cam-on' onClick={() => {
+                streamAudio?.getTracks().forEach((track) => track.stop()); 
+                setIsMicOn(!isMicOn)
+                }}/>
+              : 
+              <img src={MicOff} alt="X" className='IXN-screen-recorder-inner-button-cam-off' onClick={() => {
+                  if(!isRecordingStarted){
+                    setIsMicOn(!isMicOn)
+                  }else{
+                    setFlatError("Can't unmute in mid")
+                  }}
+                }/>
+            }
+          </div>
+        }
+        {isDownloadAvailAccess && <div  className='IXN-screen-recorder-inner-button-cam-start'>
+            {isDownloadAvail ? 
+              <a id="download_video" onClick={downLoadVideo} >
+                <img src={Download} alt="X" className='IXN-screen-recorder-inner-button-cam-on' 
+                />
+                </a>
+              :
+              <img src={Download} alt="X" className='IXN-screen-recorder-inner-button-cam-off' />
+            }
+          </div>
+        }
+        {counterTimer && <div  className='IXN-screen-recorder-inner-button-cam-start'>
+              <img src={Alarm} alt="X" className='IXN-screen-recorder-inner-button-cam-off' />
+              <span style={{color:"#1b9bff", fontSize:"10px"}}>{counterString}</span>
+          </div>
+        }
+          </div> : 
+          <div className= "IXN-screen-recorder-inner-wrapper error-flat-close">
+            <span>{flatError}</span>
+            {!isMobile || validate && <img src={CloseIcon} style={{width:"10px"}} onClick={() => setFlatError("")} alt=""/>}
+          </div>
+        }
       </div>
     </div>
   );
