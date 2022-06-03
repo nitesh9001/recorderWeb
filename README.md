@@ -35,9 +35,9 @@ Using npm:
 And then include it in your module (import recorderweb from "recorderweb")
 `import recoderweb from 'recorderweb'`
 
-     let borderfreeMerchantObj = new RecorderWeb(); 
+     let recorderWebObj = new RecorderWeb(); 
 
-     borderfreeMerchantObj.create("RecoderWeb",{
+     recorderWebObj.create("RecoderWeb",{
       environment: "desktop",
       mic: true,
       camera: true,
@@ -50,8 +50,8 @@ And then include it in your module (import recorderweb from "recorderweb")
       onStop: callBackOnStop, // get media tracks after stop
       onStart: callbackOnStart // get notify after start the recoding.
      });
-     
-     borderfreeMerchantObj.mount("id of your div where want to mount");
+
+     recorderWebObj.mount("id of your div where want to mount");
 
 ## Settings
 
