@@ -6,7 +6,7 @@ This package is made for purpose to record screen in web (Access Camera, mic and
 
 ## With video 
 
-<img width="600" alt="image" src="https://user-images.githubusercontent.com/48119181/171716304-0d47fb24-8411-45ff-81b3-82d2677cfe5b.png">
+<img width="444" alt="image" src="https://user-images.githubusercontent.com/48119181/171832347-c88b3aa6-12c1-4386-859f-6a673caf4373.png">
 
 > #### Features
 >
