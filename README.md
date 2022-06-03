@@ -56,19 +56,16 @@ And then include it in your module (import recorderweb from "recorderweb")
 ## Settings
 
 
-|congif        | possible value  | type of value   |                 remarks                 |
-|--------------|-----------------|-----------------|-----------------------------------------|
-|  mic         |   true / fasle  |   boolean       |  to access mic keep it true (it can't   |                                                                       |              |                 |                 |  be enabled after start).               |
-|  camera      |   true / fasle  |   boolean       |  to access user video keep it true.     |
-|              |                 |                 |  you can switch while recording         | 
-|  download    |   true / fasle  |   boolean       |  for download button keep the flag true |
-|  timer       |   true / fasle  |   boolean       |  for showing timer keep the flag true   |
-|  autoDownload|   true / fasle  |   boolean       |  for autodownload video after recording stop|
-|  videoFormat |   mp4 (only *)  |   string        |  it must be mp4 for now                 |
-|  avatar      |   name_of_user  |   srting        |  instead of video switch to avatar      |
-|              |                 |                 |  (firstletter of you name)              |
-|  screenShot  |   true / false  |   boolean       |  it disabled for now                    |
-|____________________________________________________________________________________________|
+|..| variables   | possible value  | type of value   |                 remarks                 |
+|-|:--------     |:---------------:|:---------------:|:----------------------------------------|
+|.|  mic        |   true / fasle  |   boolean       |  to access mic keep it true (it can't <br/> be enabled after start). |
+|.|  camera     |   true / fasle  |   boolean       |  to access user video keep it true. <br/>  you can switch while recording  | 
+|.|  download    |   true / fasle  |   boolean       |  for download button keep the flag true |
+|.|  timer       |   true / fasle  |   boolean       |  for showing timer keep the flag true   |
+|.|  autoDownload|   true / fasle  |   boolean       |  for autodownload video after recording stop|
+|.|  videoFormat |   mp4 (only *)  |   string        |  it must be mp4 for now                 |
+|.|  avatar      |   name_of_user  |   srting        |  instead of video switch to avatar <br/> (firstletter of you name) |
+|.|  screenShot  |   true / false  |   boolean       |  it disabled for now                    |
 
 ## Callback Methods
   > -  onStart   :  This callback is trigered when the recording will start.
