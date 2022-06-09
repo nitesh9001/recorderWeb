@@ -1,6 +1,6 @@
 {
   "name": "recorderweb",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "main": "dist/index.js",
   "engines": {
@@ -9,6 +9,9 @@
   "author": "Nitesh singh",
   "license": "MIT",
   "keywords": [
+    "camera",
+    "react-recorder",
+    "react-recording",
     "recorderweb",
     "sharescreen",
     "recordscreen",
@@ -39,9 +42,6 @@
   "dependencies": {
     "@material-ui/core": "^4.12.4",
     "@popperjs/core": "^2.11.5",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.2.0",
-    "@testing-library/user-event": "^13.5.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",

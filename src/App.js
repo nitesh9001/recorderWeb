@@ -127,17 +127,18 @@ const App = ({ options, component})  => {
     setisDownloadAvail(false);
     userMicrophoneStream(isMicOn).then(audioResponse => {
       userScreen().then(screenResponse => {
+       options?.onStart();
        setIsRecordingStarted(!isRecordingStarted);
        intervalRef = setInterval(countTimer, 1000); 
        setRefe(intervalRef);
-       var options = {
+       var option = {
         audioBitsPerSecond : 128000,
         videoBitsPerSecond : 2500000,
       }
       let tracks = audioResponse ? [...screenResponse?.getVideoTracks(), ...audioResponse?.getAudioTracks()] 
                     : [...screenResponse?.getVideoTracks()];
        streamsMixed = new MediaStream(tracks);
-       mediaRecorder = new MediaRecorder(streamsMixed, options);
+       mediaRecorder = new MediaRecorder(streamsMixed, option);
        setFinalBlobType(mediaRecorder?.mimeType);
        mediaRecorder.ondataavailable =  function(e) {
          if (e.data.size > 0) {
@@ -160,6 +161,7 @@ const App = ({ options, component})  => {
        setIsMicOn(false);
        setVideoCam(false);
        setIsRecordingStarted(false);
+       options?.onStop();
        if(isDownloadAtuo){
         downLoadVideo();
        }
@@ -207,6 +209,7 @@ const App = ({ options, component})  => {
       setIsMicOn(false);
       setVideoCam(false);
       setIsRecordingStarted(false);
+      options?.onStop();
       if(isDownloadAtuo){
         downLoadVideo();
       }
